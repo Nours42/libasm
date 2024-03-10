@@ -1,7 +1,7 @@
 	section	.text
-	global	_ft_strdup
-	extern	_malloc
-_ft_strdup:							; rdi = src
+	global	ft_strdup
+	extern	malloc
+ft_strdup:							; rdi = src
 	cmp		rdi, 0
 	jz		error					; src is NULL
 len_start:
@@ -16,7 +16,7 @@ malloc_start:
 	push	rdi						; save src
     inc		rcx						; length++
 	mov		rdi, rcx
-	call	_malloc					; rax = _malloc(length)
+	call	malloc					; rax = _malloc(length)
 	pop		rdi						; restore src
 	cmp		rax, 0
 	jz		error					; malloc return NULL
