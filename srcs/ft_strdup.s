@@ -16,7 +16,7 @@ malloc_start:
 	push	rdi						; save src
     inc		rcx						; length++
 	mov		rdi, rcx
-	call	malloc					; rax = _malloc(length)
+	call	malloc					; rax = malloc(length)
 	pop		rdi						; restore src
 	cmp		rax, 0
 	jz		error					; malloc return NULL

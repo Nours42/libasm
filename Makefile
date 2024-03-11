@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nours42 <nours42@student.42.fr>            +#+  +:+       +#+         #
+#    By: sdestann <sdestann@student.42perpignan.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/22 14:21:35 by sdestann          #+#    #+#              #
-#    Updated: 2024/03/10 19:46:12 by nours42          ###   ########.fr        #
+#    Updated: 2024/03/11 15:06:59 by sdestann         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,12 @@
 NAME = libasm.a
 
 SRCS_DIR = srcs/
-SRCS =	ft_strlen.s				\
+SRCS =	ft_strcmp.s				\
+		ft_strcpy.s				\
 		ft_strdup.s				\
-		ft_strcpy.s
+		ft_strlen.s				\
+		
+		
 
 OBJDIR = objs/
 SRCS_PATH = $(addprefix $(SRCS_DIR), $(SRCS))
@@ -25,7 +28,7 @@ OBJ_SRCS = $(addprefix $(OBJDIR), $(SRCS:.s=.o))
 
 ### COMPILATION ###
 
-CFLAGS    = -Wall -Wextra -Werror -fPIE -pie
+CFLAGS    = -Wall -Wextra -Werror -no-pie
 NASMFLAGS = -f elf64
 
 NASM    = nasm
@@ -55,9 +58,8 @@ ${NAME}: ${OBJ_SRCS}
 	@ar rcs $(NAME) ${OBJ_SRCS}
 	@echo $(G)Project LIBASM by SDESTANN successfully compiled${X}
 
-test: $(NAME)
+test: all $(NAME)
 	gcc $(CFLAGS) $(SRCS_DIR)main.c -L. -lasm -o $(TEST)
-	./$(TEST) < Makefile
 
 clean:
 	@echo ${R}Cleaning LIBASM ${G}[${OBJDIR}]...${X}

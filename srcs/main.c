@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nours42 <nours42@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sdestann <sdestann@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 14:21:35 by sdestann          #+#    #+#             */
-/*   Updated: 2024/03/10 19:27:49 by nours42          ###   ########.fr       */
+/*   Updated: 2024/03/11 15:10:36 by sdestann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,13 @@
 #include <string.h>
 
 # define STRLEN(x)			printf("`%s` = %d (%d)\n", x, ft_strlen(x), (int)strlen(x));
-// # define STRCMP(a, b)		printf("`%s`:`%s` = %d (%d)\n", a, b, ft_strcmp(a, b), strcmp(a, b));
+ # define STRCMP(a, b)		printf("`%s`:`%s` = %d (%d)\n", a, b, ft_strcmp(a, b), strcmp(a, b));
 // # define WRITE(s, x)		printf("^%ld (`%s`:%ld)\n", ft_write(STDOUT_FILENO, s, x), s, x);
 // # define READ(b, x)			r = ft_read(STDIN_FILENO, buffer, x); printf("`%s`:%ld\n", buffer, r);
 # define DUP(s)				tmp = ft_strdup(s); printf("`%s` (`%p`)\n", tmp, s); free(tmp); tmp = NULL;
 
 int		ft_strlen(char const *str);
-
-// int		ft_strcmp(char const *s1, char const *s2);
-
+int		ft_strcmp(char const *s1, char const *s2);
 char	*ft_strcpy(char *dst, char const *src);
 
 // ssize_t	ft_write(int fd, void const *buf, size_t nbyte);
@@ -56,16 +54,16 @@ int main(void)
 	STRLEN("1")
 	printf("-done\n");
 
-	// printf("\n--strcmp\n");
-	// STRCMP("", "")
-	// STRCMP("toto", "toto")
-	// STRCMP("", "toto")
-	// STRCMP("toto", "")
-	// STRCMP("toto", "totobar")
-	// printf("`%s`:`%s` = %d\n", "TOTO", NULL, ft_strcmp("TOTO", NULL));
-	// printf("`%s`:`%s` = %d\n", NULL, "TOTO", ft_strcmp(NULL, "TOTO"));
-	// printf("`%s`:`%s` = %d\n", NULL, NULL, ft_strcmp(NULL, NULL));
-	// printf("-done\n");
+	 printf("\n--strcmp\n");
+	 STRCMP("", "")
+	 STRCMP("toto", "toto")
+	 STRCMP("", "toto")
+	 STRCMP("toto", "")
+	 STRCMP("toto", "totobar")
+	 printf("`%s`:`%p` = %d\n", "TOTO", NULL, ft_strcmp("TOTO", NULL));
+	 printf("`%p`:`%s` = %d\n", NULL, "TOTO", ft_strcmp(NULL, "TOTO"));
+	 printf("`%p`:`%p` = %d\n", NULL, NULL, ft_strcmp(NULL, NULL));
+	 printf("-done\n");
 
 	printf("\n--strcpy\n");
 	printf("`%s` (`toto`)\n", ft_strcpy(buffer, "toto"));
