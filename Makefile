@@ -6,7 +6,7 @@
 #    By: sdestann <sdestann@student.42perpignan.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/22 14:21:35 by sdestann          #+#    #+#              #
-#    Updated: 2024/03/11 15:06:59 by sdestann         ###   ########.fr        #
+#    Updated: 2024/03/11 17:07:12 by sdestann         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,12 @@
 NAME = libasm.a
 
 SRCS_DIR = srcs/
-SRCS =	ft_strcmp.s				\
+SRCS =	ft_read.s				\
+		ft_strcmp.s				\
 		ft_strcpy.s				\
 		ft_strdup.s				\
 		ft_strlen.s				\
+		ft_write.s
 		
 		
 
@@ -28,7 +30,7 @@ OBJ_SRCS = $(addprefix $(OBJDIR), $(SRCS:.s=.o))
 
 ### COMPILATION ###
 
-CFLAGS    = -Wall -Wextra -Werror -no-pie
+CFLAGS    = -v -Wall -Wextra -Werror -fPIE -pie
 NASMFLAGS = -f elf64
 
 NASM    = nasm
@@ -59,7 +61,7 @@ ${NAME}: ${OBJ_SRCS}
 	@echo $(G)Project LIBASM by SDESTANN successfully compiled${X}
 
 test: all $(NAME)
-	gcc $(CFLAGS) $(SRCS_DIR)main.c -L. -lasm -o $(TEST)
+	clang $(CFLAGS) $(SRCS_DIR)main.c -L. -lasm -o $(TEST)
 
 clean:
 	@echo ${R}Cleaning LIBASM ${G}[${OBJDIR}]...${X}

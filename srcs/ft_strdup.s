@@ -1,38 +1,29 @@
-	section	.text
-	global	ft_strdup
-	extern	malloc
-ft_strdup:							; rdi = src
-	cmp		rdi, 0
-	jz		error					; src is NULL
-len_start:
-	xor		rcx, rcx				; i = 0
-	jmp		len_compare
-len_increment:
-	inc		rcx						; i++
-len_compare:
-	cmp		BYTE [rdi + rcx], 0		; str[i] == 0
-	jne		len_increment
-malloc_start:
-	push	rdi						; save src
-    inc		rcx						; length++
-	mov		rdi, rcx
-	call	malloc					; rax = malloc(length)
-	pop		rdi						; restore src
-	cmp		rax, 0
-	jz		error					; malloc return NULL
-copy_start:
-	xor		rcx, rcx				; i = 0
-	xor		rdx, rdx				; tmp = 0
-	jmp		copy_copy
-copy_increment:
-	inc		rcx
-copy_copy:
-	mov		dl, BYTE [rdi + rcx]
-	mov		BYTE [rax + rcx], dl
-	cmp		dl, 0
-	jnz		copy_increment
-	jmp		return
-error:
-	xor		rax, rax
-return:
+	global		ft_strdup
+
+	extern		__errno_location
+	extern		malloc
+	extern		ft_strlen
+	extern		ft_strcpy
+
+	section		.text
+
+ft_strdup:
+	call		ft_strlen		; len = ft_strlen(s1)
+	inc			rax				; len++ (increment for '\0')
+	mov			rbx, rdi		; tmp = s1
+	mov			rdi, rax		; size = len
+	call		malloc			; ret_malloc = malloc(size)
+	cmp			rax, 0
+	je			.ret_error		; if (!ret_malloc) then ret_error()
+	mov			rdi, rax		; dst = ret_malloc
+	mov			rsi, rbx		; src = tmp (= s1)
+	call		ft_strcpy
 	ret
+
+.ret_error:
+	mov		rdi, rax			; tmp = ret
+	neg		rdi					; tmp = -tmp (invert value for positive errno)
+	call	__errno_location	; ret = &errno (get pointer to errno)
+	mov		[rax], rdi			; *ret = tmp (put return value into errno)
+	mov		rax, -1				; ret = -1
+	ret							; return (ret)
