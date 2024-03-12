@@ -6,70 +6,58 @@
 #    By: sdestann <sdestann@student.42perpignan.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/22 14:21:35 by sdestann          #+#    #+#              #
-#    Updated: 2024/03/11 17:07:12 by sdestann         ###   ########.fr        #
+#    Updated: 2024/03/12 14:26:09 by sdestann         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ### MISC ###
 
 NAME = libasm.a
+TEST = test.out
 
-SRCS_DIR = srcs/
+SRCS_DIR = srcs
+OBJS_DIR = objs
+TEST_DIR = test
+
 SRCS =	ft_read.s				\
 		ft_strcmp.s				\
 		ft_strcpy.s				\
 		ft_strdup.s				\
 		ft_strlen.s				\
 		ft_write.s
-		
-		
 
-OBJDIR = objs/
-SRCS_PATH = $(addprefix $(SRCS_DIR), $(SRCS))
-OBJ_SRCS = $(addprefix $(OBJDIR), $(SRCS:.s=.o))
+OBJS		= $(patsubst %.s, ${OBJS_DIR}/%.o, ${SRCS})
+TEST_SRCS	= $(foreach dir, $(DIR_TEST), $(wildcard $(dir)/*.c))
+INCLUDES	= -I includes
+ASM			= nasm
+ASMFLAGS	= -f elf64
 
-### COMPILATION ###
+CC			= clang
+CFLAGS    	= -Wall -Wextra -Werror -lasm -L.
 
-CFLAGS    = -v -Wall -Wextra -Werror -fPIE -pie
-NASMFLAGS = -f elf64
-
-NASM    = nasm
-TEST	= test
-
-Y = "\033[33m"
-R = "\033[31m"
-G = "\033[32m"
-B = "\033[34m"
-X = "\033[0m"
-UP = "\033[A"
-CUT = "\033[K"
+RM			= /bin/rm -f
 
 ### RULES ###
 
-all: $(OBJDIR) ${NAME}
+all: $(NAME)
 
-$(OBJDIR):
-	@mkdir -p $(OBJDIR)
+$(OBJS_DIR)/%o : $(SRCS_DIR)/%.s
+	@mkdir -p $(OBJS_DIR)
+	@$(ASM) $(ASMFLAGS) $< -o $@
 
-$(OBJDIR)%.o: $(SRCS_DIR)%.s
-	@$(NASM) $(NASMFLAGS) $< -o $@
+$(NAME): $(OBJS)
+	@ar rcs $(NAME) $(OBJS)
 
-${NAME}: ${OBJ_SRCS}
-	@echo $(G)Creating .o files$(X)
-	@echo $(G)Linking .o files in libasm.a$(X)
-	@ar rcs $(NAME) ${OBJ_SRCS}
-	@echo $(G)Project LIBASM by SDESTANN successfully compiled${X}
-
-test: all $(NAME)
-	clang $(CFLAGS) $(SRCS_DIR)main.c -L. -lasm -o $(TEST)
+.PHONY: test
+test: $(NAME) $(TEST_SRCS)
+	$(CC) $(TEST_SRCS) $(CFLAGS) $(INCLUDES) -o $(TEST)
 
 clean:
-	@echo ${R}Cleaning LIBASM ${G}[${OBJDIR}]...${X}
-	@/bin/rm -Rf ${OBJDIR}
+	@$(RM) -rf $(OBJS) $(OBJS_DIR)
 
 fclean: clean
-	@echo ${R}FCleaning LIBASM ${G}[${NAME}]...${X}
-	@/bin/rm -f ${NAME}
+	@echo $(R)FCleaning LIBASM $(G)[$(NAME)]...$(X)
+	@$(RM) -f $(NAME) $(TEST)
 
 re: fclean all
 
