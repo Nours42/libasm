@@ -6,7 +6,7 @@
 #    By: sdestann <sdestann@student.42perpignan.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/22 14:21:35 by sdestann          #+#    #+#              #
-#    Updated: 2024/03/12 14:26:09 by sdestann         ###   ########.fr        #
+#    Updated: 2024/03/12 15:14:04 by sdestann         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRCS =	ft_read.s				\
 		ft_write.s
 
 OBJS		= $(patsubst %.s, ${OBJS_DIR}/%.o, ${SRCS})
-TEST_SRCS	= $(foreach dir, $(DIR_TEST), $(wildcard $(dir)/*.c))
+TEST_SRCS	= $(foreach dir, $(TEST_DIR), $(wildcard $(dir)/*.c))
 INCLUDES	= -I includes
 ASM			= nasm
 ASMFLAGS	= -f elf64
@@ -41,7 +41,7 @@ RM			= /bin/rm -f
 
 all: $(NAME)
 
-$(OBJS_DIR)/%o : $(SRCS_DIR)/%.s
+$(OBJS_DIR)/%.o : $(SRCS_DIR)/%.s
 	@mkdir -p $(OBJS_DIR)
 	@$(ASM) $(ASMFLAGS) $< -o $@
 
@@ -51,6 +51,7 @@ $(NAME): $(OBJS)
 .PHONY: test
 test: $(NAME) $(TEST_SRCS)
 	$(CC) $(TEST_SRCS) $(CFLAGS) $(INCLUDES) -o $(TEST)
+	./$(TEST) < ./test/test.txt
 
 clean:
 	@$(RM) -rf $(OBJS) $(OBJS_DIR)
