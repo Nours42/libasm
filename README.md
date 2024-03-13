@@ -1,7 +1,7 @@
-# libasm
+# libasm subject :
 libasm is an introduction to asm code or assembly code (the machine language)
 
-# link who helps me :
+# links who helps me :
 
 <p><a href="https://en.wikibooks.org/wiki/X86_Assembly/GNU_assembly_syntax">https://en.wikibooks.org/wiki/X86_Assembly/GNU_assembly_syntax</a></p>
 <p><a href="https://en.wikibooks.org/wiki/X86_Assembly/x86_Assemblers">https://en.wikibooks.org/wiki/X86_Assembly/x86_Assemblers</a></p>
